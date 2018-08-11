@@ -1,0 +1,87 @@
+insert into hotels values(1,'four seasons',5);
+insert into hotels values(2,'fat duck',3);
+insert into hotels values(3,'lime wood',4);
+insert into hotels values(4,'oasis',4);
+insert into hotels values(5,'tipton',5);
+
+
+insert into restaurant values(101,'chinese',7,2);
+insert into restaurant values(102,'japanese',8,1);
+insert into restaurant values(103,'indian',10,1);
+insert into restaurant values(104,'european',9,4);
+insert into restaurant values(105,'french',8,3);
+insert into restaurant values(106,'fast food',7,5);
+
+
+insert into location values(560098,'channasandra','bangalore',1);
+insert into location values(400090,'bazargate','mumbai',2);
+insert into location values(110001,'baroda house','delhi',2);
+insert into location values(110005,'bank street','delhi',2);
+insert into location values(403001,'fontainhas','panaji',3);
+insert into location values(560001,'churchstreet','bangalore',4);
+insert into location values(605001,'auroville','pondicherry',5);
+
+insert into facilities values('indoor beach',1);
+insert into facilities values('indoor beach',5);
+insert into facilities values('wifi',1);
+insert into facilities values('wifi',3);
+insert into facilities values('wifi',4);
+insert into facilities values('wifi',5);
+insert into facilities values('gym',1);
+insert into facilities values('gym',2);
+insert into facilities values('gym',3);
+insert into facilities values('gym',4);
+insert into facilities values('gym',5);
+insert into facilities values('pool',2);
+insert into facilities values('pool',3);
+insert into facilities values('pool',4);
+insert into facilities values('private spa',1);
+insert into facilities values('private spa',5);
+insert into facilities values('private spa',3);
+
+
+insert into rooms values(201,'royal',6000,'yes','yes',2,1);
+insert into rooms values(202,'family',3000,'no','yes',4,1);
+insert into rooms values(203,'presidential',50000,'yes','no',2,1);
+insert into rooms values(204,'royal',5000,'yes','yes',2,2);
+insert into rooms values(205,'pent house',11000,'yes','yes',5,2);
+insert into rooms values(206,'sky villa',24000,'yes','yes',3,2);
+insert into rooms values(207,'family',1500,'no','no',4,3);
+insert into rooms values(208,'sky villa',25000,'yes','yes',3,3);
+insert into rooms values(209,'royal',4000,'no','yes',2,4);
+insert into rooms values(210,'pent house',10000,'yes','no',5,4);
+insert into rooms values(211,'family',2000,'no','yes',4,4);
+insert into rooms values(212,'presidential',51000,'yes','yes',2,5);
+insert into rooms values(213,'sky villa',26000,'yes','yes',3,5);
+
+DELIMITER //
+CREATE PROCEDURE rC()
+begin
+select * from hotels where hotelname = 'four seasons';
+end//
+DELIMITER
+
+CALL rC;
+
+CREATE TABLE messages (
+  id INT NOT NULL ,
+  message VARCHAR(255) DEFAULT NULL,
+  PRIMARY KEY (id)
+);
+INSERT INTO messages VALUES (1,'already updated');
+DELIMITER $$
+
+CREATE TRIGGER trigger1
+    AFTER UPDATE
+    ON rooms
+    FOR EACH ROW
+BEGIN
+if new.status = old.status then
+  update messages set message = 'Already updated';
+else
+  update messages set message = 'Succesfully updated';
+end if;
+END
+$$
+
+DELIMITER ;

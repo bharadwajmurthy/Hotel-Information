@@ -1,0 +1,31 @@
+DELIMITER //
+CREATE PROCEDURE rC()
+begin
+select * from hotels where hotelname = 'four seasons';
+end//
+DELIMITER
+
+CALL rC;
+
+CREATE TABLE messages (
+  id INT NOT NULL ,
+  message VARCHAR(255) DEFAULT NULL,
+  PRIMARY KEY (id)
+);
+INSERT INTO messages VALUES (1,'already updated');
+DELIMITER $$
+
+CREATE TRIGGER trigger1
+    AFTER UPDATE
+    ON rooms
+    FOR EACH ROW
+BEGIN
+if new.status = old.status then
+  update messages set message = 'Already updated';
+else
+  update messages set message = 'Succesfully updated';
+end if;
+END
+$$
+
+DELIMITER ;

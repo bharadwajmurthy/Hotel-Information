@@ -1,0 +1,36 @@
+create table hotels 
+(
+  hotelid int primary key,
+  hotelname varchar(20),
+  stars int
+);
+
+create table location(
+  pin int primary key,
+  street varchar(15),
+  city varchar(15),
+  hotelid int references hotels(hotelid) on delete cascade
+);
+
+create table restaurant(
+  rid int primary key,
+  type varchar(20),
+  ratings int,
+  hotelid int references hotels(hotelid) on delete cascade 
+);
+
+create table facilities(
+ name varchar(20),
+ hotelid int references hotels(hotelid) on delete cascade,
+ primary key(name,hotelid)
+);
+
+create table rooms(
+ roomid int primary key,
+ type varchar(20),
+ cost int,
+ ac varchar(10),
+ status varchar(10),
+ beds int,
+ hotelid int references hotels(hotelid) on delete cascade
+);
